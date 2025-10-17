@@ -70,9 +70,9 @@ def run_chat(db_manager: MongoDBManager, user_id: str, thread_name: str) -> None
     # --- TODO 3: Load and display existing conversation ---
     # Time how long it takes to load the conversation
     start_time = time.perf_counter()
-    messages = None  # fixme! Use get_conversation
-    end_time = None # fixme!
-    duration = None # fixme!
+    messages = db_manager.get_conversation(user_id, thread_name)
+    end_time = time.perf_counter()
+    duration = end_time - start_time
 
     if messages:
         print(f"\n--- Conversation History ({len(messages)} messages) ---")
@@ -100,21 +100,19 @@ def run_chat(db_manager: MongoDBManager, user_id: str, thread_name: str) -> None
         # Note: We're calling append_message() TWICE (once for user, once for AI)
         # This is different from Lab 1 where we did one big write!
 
-        start_time = None  # fixme!
+        start_time = time.perf_counter()
 
         # Append user message
         user_message = {"role": "user", "content": user_input}
-        # fixme! Use append_message
-        # db_manager.
+        db_manager.append_message(user_id, thread_name, user_message)
 
         # Create and append AI response
         ai_response = "This is a mock response from the AI."
         ai_message = {"role": "assistant", "content": ai_response}
-        # fixme! Use append_message
-        #db_manager.
+        db_manager.append_message(user_id, thread_name, ai_message)
 
-        end_time = None  # fixme!
-        duration = None  # fixme!
+        end_time = time.perf_counter()
+        duration = end_time - start_time
 
         print(f"AI: {ai_response}")
         print(f"(Operation took {duration:.4f} seconds)")
