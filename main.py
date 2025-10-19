@@ -22,21 +22,18 @@ def main():
     # --- TODO 2: List existing threads and let user choose ---
     # Steps:
     # 1. Get list of existing threads for this user using list_user_threads()
+    threads = db_manager.list_user_threads(user_id)
     # 2. If threads exist (Step 2 already done for you, understand the flow, then skip to 3):
     #    - Print them out with numbers (e.g., "1. work_project")
     #    - Print an option to create a new thread (e.g., "N. Create new thread")
     #    - Get user's choice
-    # 3. If no threads exist or user chooses new:
-    #    - Prompt for a new thread name (already done for you, skip to next)
-    #    - Store the new thread_name
-
-    threads = None  # fixme!
-
     for i, thread_name in enumerate(threads):
         print(f"{i}. {thread_name}")
     print(f"{len(threads)}. Create new thread")
     user_selection = input("Enter a thread number:")
-
+    # 3. If no threads exist or user chooses new:
+    #    - Prompt for a new thread name (already done for you, skip to next)
+    #    - Store the new thread_name
     if not user_selection.isdigit():
         print("Not a number, exiting")
         return
@@ -52,8 +49,7 @@ def main():
         # prompt for thread name
         thread_name = input("Enter thread name:")
         # Store new thread name
-        # fixme!
-        # db_manager.save_conversation
+        db_manager.save_conversation(user_id, thread_name, [])
     else:
         thread_name = threads[choice]
 
